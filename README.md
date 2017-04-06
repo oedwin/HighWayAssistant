@@ -1,5 +1,5 @@
 # HighWayAssistant
-This is my final year project, it helps travelers to locate places like Restaurants, Hospitals, petrol stations and so on while traveling. 
+This is my final year project, it helps travelers to locate places like Restaurants, Hospitals, petrol stations and so on while traveling.  I need when a user clicks on the marker of any place another screen is opened show the place name, address, contact information and a user can be able to call to the place from that screen so i was requesting that you help me contribute to the project, I know the code may not be clean but am sorry am just learning android development so you can just help. Thanks
 
 ### Code
 
