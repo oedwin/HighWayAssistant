@@ -16,3 +16,11 @@ add your google maps key on res/values/google_maps_api.xml
 * **Onyango Edwin**
 ## Helped by
 * **Marchellin Antonia**
+
+## Screenshot
+* first action is locate user's current location <br />
+<img src="https://drive.google.com/file/d/0B7aBBthbQ4Dic1RCZndRa3ZNNGs/view" width="300">
+<br />
+* screen for buttons <br />
+<img src="https://drive.google.com/file/d/0B7aBBthbQ4Diek9EQy1ZcXgxeFk/view" width="300">
+<br />
