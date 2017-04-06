@@ -19,8 +19,14 @@ add your google maps key on res/values/google_maps_api.xml
 
 ## Screenshot
 * first action is locate user's current location <br />
-<img src="https://drive.google.com/file/d/0B7aBBthbQ4Dic1RCZndRa3ZNNGs/view" width="300">
+<img src="https://github.com/oedwin/HighWayAssistant/blob/master/userscurrent_location.png" width="300">
 <br />
 * screen for buttons <br />
-<img src="https://drive.google.com/file/d/0B7aBBthbQ4Diek9EQy1ZcXgxeFk/view" width="300">
+<img src="https://github.com/oedwin/HighWayAssistant/blob/master/secondscreen.png" width="300">
 <br />
+* screen when a button is clicked and it shows nearby places <br />
+<img src="https://github.com/oedwin/HighWayAssistant/blob/master/nearbyplaces.png" width="300">
+<br />
+* screen when a marker is clicked  <br />
+<img src="https://github.com/oedwin/HighWayAssistant/blob/master/placenames.png" width="300">
+
