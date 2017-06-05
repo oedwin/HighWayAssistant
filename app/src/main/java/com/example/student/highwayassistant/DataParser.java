@@ -64,7 +64,8 @@ public class DataParser {
         HashMap<String, String> googlePlaceMap = new HashMap<String, String>();
         String placeName = "-NA-";
         String vicinity = "-NA-";
-        String phone = "-NA-";
+        String formatted_address="-NA-";
+        String formatted_phone="-NA-";
         String latitude = "";
         String longitude = "";
         String reference = "";
@@ -72,21 +73,30 @@ public class DataParser {
         Log.d("getPlace", "Entered");
 
         try {
+            // Extracting Place name, if available
             if (!googlePlaceJson.isNull("name")) {
                 placeName = googlePlaceJson.getString("name");
             }
+            // Extracting Place Vicinity, if available
             if (!googlePlaceJson.isNull("vicinity")) {
                 vicinity = googlePlaceJson.getString("vicinity");
             }
-            if (!googlePlaceJson.isNull("phone")) {
-                phone = googlePlaceJson.getString("phone");
+            // Extracting Place formatted_address, if available
+            if(!googlePlaceJson.isNull("formatted_address")){
+                formatted_address = googlePlaceJson.getString("formatted_address");
+
+            }
+            // Extracting Place formatted_phone, if available
+            if(!googlePlaceJson.isNull("formatted_phone_number")){
+                formatted_phone = googlePlaceJson.getString("formatted_phone_number");
             }
             latitude = googlePlaceJson.getJSONObject("geometry").getJSONObject("location").getString("lat");
             longitude = googlePlaceJson.getJSONObject("geometry").getJSONObject("location").getString("lng");
             reference = googlePlaceJson.getString("reference");
             googlePlaceMap.put("place_name", placeName);
             googlePlaceMap.put("vicinity", vicinity);
-            googlePlaceMap.put("phone_number", phone);
+            googlePlaceMap.put("formatted_address", formatted_address);
+            googlePlaceMap.put("formatted_phone", formatted_phone);
             googlePlaceMap.put("lat", latitude);
             googlePlaceMap.put("lng", longitude);
             googlePlaceMap.put("reference", reference);

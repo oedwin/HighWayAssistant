@@ -29,7 +29,6 @@
         app:floatingSearch_searchHint="Search..."
         android:imeOptions="actionSearch"
         android:inputType="text"
-        android:onClick="onMapSearch"
         app:floatingSearch_suggestionsListAnimDuration="250"
         app:floatingSearch_showSearchKey="true"
         app:floatingSearch_leftActionMode="showHamburger"

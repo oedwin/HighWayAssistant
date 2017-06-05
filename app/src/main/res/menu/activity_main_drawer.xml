@@ -3,29 +3,26 @@
 
     <group android:checkableBehavior="single">
         <item
-            android:id="@+id/signin"
-            android:title="Sign In" />
+            android:id="@+id/direction"
+            android:icon="@drawable/ic_navigation_black_24dp"
+            android:title="Start driving" />
         <item
-            android:id="@+id/signup"
-            android:title="Sign Up" />
+            android:id="@+id/offline"
+            android:icon="@drawable/ic_cloud_off_black_24dp"
+            android:title="Offline areas" />
+        <item
+            android:id="@+id/nav_share"
+            android:icon="@drawable/ic_menu_share"
+            android:title="Share" />
 
     </group>
 
-
-    <item android:title="">
-        <menu>
             <group android:checkableBehavior="single">
-                <item
-                    android:id="@+id/nav_share"
-                    android:icon="@drawable/ic_menu_share"
-                    android:title="Share" />
+
                 <item
                     android:id="@+id/help"
+                    android:icon="@drawable/ic_help_black_24dp"
                     android:title="Help"/>
             </group>
-
-
-        </menu>
-    </item>
 
 </menu>

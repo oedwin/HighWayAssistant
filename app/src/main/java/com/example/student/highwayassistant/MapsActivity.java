@@ -2,9 +2,11 @@ package com.example.student.highwayassistant;
 
 
 import android.Manifest;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.IntentSender;
 import android.content.pm.PackageManager;
+import android.graphics.Color;
 import android.location.Location;
 import android.location.LocationManager;
 import android.net.Uri;
@@ -17,6 +19,7 @@ import android.os.Bundle;
 import android.support.v4.content.ContextCompat;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
+import android.support.v7.app.AlertDialog;
 import android.util.Log;
 
 import android.view.MenuItem;
@@ -28,8 +31,7 @@ import android.widget.Toast;
 
 import com.arlib.floatingsearchview.FloatingSearchView;
 import com.arlib.floatingsearchview.suggestions.model.SearchSuggestion;
-import com.bumptech.glide.Glide;
-import com.bumptech.glide.load.engine.DiskCacheStrategy;
+
 import com.google.android.gms.appindexing.Action;
 import com.google.android.gms.appindexing.AppIndex;
 import com.google.android.gms.appindexing.Thing;
@@ -56,6 +58,7 @@ import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
 import com.github.clans.fab.FloatingActionButton;
 import com.github.clans.fab.FloatingActionMenu;
+import com.google.android.gms.maps.model.PolylineOptions;
 
 
 public class MapsActivity extends FragmentActivity implements OnMapReadyCallback,
@@ -77,14 +80,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
     private FloatingSearchView mSearchView;
     int REQUEST_CHECK_SETTINGS = 100;
 
-    // flag for Internet connection status
-   // Boolean isInternetPresent = false;
-
-    // Connection detector class
-   // ConnectionDetector cd;
-//
-    // Alert Dialog Manager
-   // AlertDialogManager alert = new AlertDialogManager();
+    GetNearbyPlacesData getNearbyPlacesData = new GetNearbyPlacesData(MapsActivity.this);
 
 
     FloatingActionMenu materialDesignFAM;
@@ -93,25 +89,22 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
 
     private GoogleApiClient client;
 
+    /*checking for internet connectivity*/
+    // flag for Internet connection status
+    Boolean isInternetPresent = false;
+
+    // Connection detector class
+    ConnectionDetector cd;
+
+    // Alert Dialog Manager
+    AlertDialogManager alert = new AlertDialogManager();
 
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.maps_activity_drawer);
-/*
-        cd = new ConnectionDetector(getApplicationContext());
 
-        // Check if Internet present
-        isInternetPresent = cd.isConnectingToInternet();
-        if (!isInternetPresent) {
-            // Internet Connection is not present
-            alert.showAlertDialog(MapsActivity.this, "Internet Connection Error",
-                    "Please connect to working Internet connection", false);
-            // stop executing code by return
-            return;
-        }
-*/
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
             checkLocationPermission();
         }
@@ -123,6 +116,21 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         } else {
             Log.d("onCreate", "Google Play Services available.");
         }
+
+
+         /*checking for internet connectivity*/
+        cd = new ConnectionDetector(getApplicationContext());
+
+        // Check if Internet present
+        isInternetPresent = cd.isConnectingToInternet();
+        if (!isInternetPresent) {
+            // Internet Connection is not present
+            alert.showAlertDialog(MapsActivity.this, "Internet Connection Error",
+                    "Please connect to working Internet connection(Data or Wifi)", false);
+            // stop executing code by return
+            return;
+        }
+
 
         // Obtain the SupportMapFragment and get notified when the map is ready to be used.
         SupportMapFragment mapFragment = (SupportMapFragment) getSupportFragmentManager()
@@ -216,11 +224,11 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
                 DataTransfer[0] = mMap;
                 DataTransfer[1] = url;
                 Log.d("onClick", url);
-                GetNearbyPlacesData getNearbyPlacesData = new GetNearbyPlacesData();
+
                 getNearbyPlacesData.execute(DataTransfer);
                 Toast.makeText(MapsActivity.this, "Nearby Restaurants", Toast.LENGTH_LONG).show();
 
-                //closing the floating action menu button
+
                 
             }
         });
@@ -238,7 +246,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
                 DataTransfer[0] = mMap;
                 DataTransfer[1] = url;
                 Log.d("onClick", url);
-                GetNearbyPlacesData getNearbyPlacesData = new GetNearbyPlacesData();
+
                 getNearbyPlacesData.execute(DataTransfer);
                 Toast.makeText(MapsActivity.this, "Nearby Hospitals", Toast.LENGTH_LONG).show();
             }
@@ -259,7 +267,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
                 DataTransfer[0] = mMap;
                 DataTransfer[1] = url;
                 Log.d("onClick", url);
-                GetNearbyPlacesData getNearbyPlacesData = new GetNearbyPlacesData();
+
                 getNearbyPlacesData.execute(DataTransfer);
                 Toast.makeText(MapsActivity.this, "Nearby Police Station", Toast.LENGTH_LONG).show();
 
@@ -282,7 +290,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
                 DataTransfer[0] = mMap;
                 DataTransfer[1] = url;
                 Log.d("onClick", url);
-                GetNearbyPlacesData getNearbyPlacesData = new GetNearbyPlacesData();
+
                 getNearbyPlacesData.execute(DataTransfer);
                 Toast.makeText(MapsActivity.this, "Nearby Lodging", Toast.LENGTH_LONG).show();
             }
@@ -303,12 +311,50 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
                 DataTransfer[0] = mMap;
                 DataTransfer[1] = url;
                 Log.d("onClick", url);
-                GetNearbyPlacesData getNearbyPlacesData = new GetNearbyPlacesData();
+
                 getNearbyPlacesData.execute(DataTransfer);
                 Toast.makeText(MapsActivity.this, "Nearby Petrol Stations", Toast.LENGTH_LONG).show();
             }
         });
 
+        floatingActionButtonGarages.setOnClickListener(new View.OnClickListener() {
+            String petrolstations = "gas_station";
+            @Override
+            public void onClick(View v) {
+                Log.d("onClick", "Button is Clicked");
+                mMap.clear();
+                if (mCurrLocationMarker != null) {
+                    mCurrLocationMarker.remove();
+                }
+                String url = getUrl(latitude, longitude, petrolstations);
+                Object[] DataTransfer = new Object[2];
+                DataTransfer[0] = mMap;
+                DataTransfer[1] = url;
+                Log.d("onClick", url);
+
+                getNearbyPlacesData.execute(DataTransfer);
+                Toast.makeText(MapsActivity.this, "Nearby Garages", Toast.LENGTH_LONG).show();
+            }
+        });
+
+        floatingActionButtonVendingPlaces.setOnClickListener(new View.OnClickListener() {
+                String vending_places = "food";
+            @Override
+            public void onClick(View v) {
+                Log.d("onClick", "Button is Clicked");
+                mMap.clear();
+                if (mCurrLocationMarker != null) {
+                    mCurrLocationMarker.remove();
+                }
+                String url = getUrl(latitude, longitude, vending_places);
+                Object[] DataTransfer = new Object[2];
+                DataTransfer[0] = mMap;
+                DataTransfer[1] = url;
+                Log.d("onClick", url);
+                getNearbyPlacesData.execute(DataTransfer);
+                Toast.makeText(MapsActivity.this, "Nearby Vending Places", Toast.LENGTH_LONG).show();
+            }
+        });
 
         // ATTENTION: This was auto-generated to implement the App Indexing API.
         // See https://g.co/AppIndexing/AndroidStudio for more information.
@@ -318,33 +364,37 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
     //navigation item selections
     @Override
     public boolean onNavigationItemSelected(@NonNull MenuItem item) {
-                   /*
+
                     // Handle navigation view item clicks here.
                     int id = item.getItemId();
 
-                    if (id == R.id.btnRestaurant) {
-
+                    if (id == R.id.direction) {
+                        /*
                         Intent i = new Intent(getApplicationContext(),
-                                DrawerTest.class);
+                                ShowDirection.class);
                         startActivity(i);
                         finish();
 
+                        */
 
+                    } else if (id == R.id.offline) {
 
-                    } else if (id == R.id.btnHospital) {
+                    }else if (id == R.id.nav_share) {
+                        Intent sharingIntent = new Intent(Intent.ACTION_SEND);
+                        sharingIntent.setType("text/plain");
+                        String shareBody = "HighwayAssitant App is a geo-location android application you can download it from, http://edwintech.tk";
+                        sharingIntent.putExtra(Intent.EXTRA_SUBJECT, "HighwayAssitant App");
+                        sharingIntent.putExtra(Intent.EXTRA_TEXT, shareBody);
+                        startActivity(Intent.createChooser(sharingIntent, "share via"));
 
-                    } else if (id == R.id.btnPoliceStation) {
-
-                    } else if (id == R.id.btnLodges) {
-
-                    } else if (id == R.id.btnPetrolStations) {
-
-                    } else if (id == R.id.btnVendingPlaces) {
-
-                    }else if (id == R.id.btnGarages) {
+                    }else if (id == R.id.help) {
+                        Intent i = new Intent(getApplicationContext(),
+                                Help.class);
+                        startActivity(i);
+                        finish();
 
                     }
-                    */
+
         mDrawerLayout = (DrawerLayout) findViewById(R.id.drawer_layout);
         mDrawerLayout.closeDrawer(GravityCompat.START);
         return true;
@@ -458,8 +508,21 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
                 mMap.moveCamera(CameraUpdateFactory.newLatLng(latLng));
                 mMap.animateCamera(CameraUpdateFactory.zoomTo(14));
                 Toast.makeText(MapsActivity.this, "Your Current Location", Toast.LENGTH_LONG).show();
+            /*
+                //add a polyline to the map
+                mMap.addPolyline(new PolylineOptions()
+                        .add(latLng, )
+                        .width(5)
+                        .color(Color.BLUE)
+                        .geodesic(true));
+             */
 
                 Log.d("onLocationChanged", String.format("latitude:%.3f longitude:%.3f", latitude, longitude));
+
+
+
+
+                
 
 
 
@@ -467,7 +530,20 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
 
             }
         });
+        /** Called when the user clicks a marker. */
+        mMap.setOnInfoWindowClickListener(new GoogleMap.OnInfoWindowClickListener() {
 
+            public void onInfoWindowClick(Marker marker) {
+                /*
+                Intent i = new Intent(getApplication(), ShowDirection.class);
+                //sends this to the next activity
+                i.putExtra("position", marker.getPosition());
+
+                i.putExtra("title", marker.getTitle());
+                startActivity(i);
+                */
+            }
+        });
 
 
 
@@ -664,7 +740,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
                 .setActionStatus(Action.STATUS_TYPE_COMPLETED)
                 .build();
     }
-
+/*
     @Override
     public void onStart() {
         super.onStart();
@@ -683,6 +759,26 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         // See https://g.co/AppIndexing/AndroidStudio for more information.
         AppIndex.AppIndexApi.end(client, getIndexApiAction());
         client.disconnect();
+    }
+ */
+    /** Called when the user clicks a back button. */
+    @Override
+    public void onBackPressed() {
+
+        new AlertDialog.Builder(this)
+                .setTitle("Exit")
+                .setMessage("Are you sure you want to exit ?")
+                .setNegativeButton(android.R.string.no, null)
+                .setPositiveButton(android.R.string.yes, new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        MapsActivity.super.onBackPressed();
+                    }
+                }).create().show();
+
+
+
+
     }
 }
 

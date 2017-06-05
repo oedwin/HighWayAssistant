@@ -1,14 +1,15 @@
 package com.example.student.highwayassistant;
 
+/**
+ * Created by student on 4/14/17.
+ */
+
 import android.content.Context;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 
-/**
- * Created by student on 2/9/17.
- */
-
 public class ConnectionDetector {
+
     private Context _context;
 
     public ConnectionDetector(Context context){

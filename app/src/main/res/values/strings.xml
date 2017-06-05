@@ -3,13 +3,39 @@
     <string name="title_activity_maps">HighWayAssistant</string>
 
 
-
     <string name="navigation_drawer_open">Open navigation drawer</string>
     <string name="navigation_drawer_close">Close navigation drawer</string>
 
-    <string name="action_settings">Settings</string>
-    <string name="title_activity_drawer_test">Map</string>
-    <string name="title_activity_distance_calc">Map</string>
-    <string name="title_activity_nav">Nav</string>
-    <string name="title_activity_maps2">Map</string>
+    <string name="show_direction">Show direction</string>
+
+    <!-- strings for introduction -->
+
+    <string name="title_activity_welcome">Home Screen</string>
+    <string name="next">NEXT</string>
+    <string name="skip">SKIP</string>
+    <string name="start">GOT IT</string>
+
+    <string name="slide_1_title">First Screen</string>
+    <string name="slide_1_desc">This shows your extact location on the map and a magenta marker will be placed on the
+        map but you can always click on the current
+    location button to update it. Reminder, you have to be connected to the internt(WIFI, data connection</string>
+
+    <string name="slide_2_title">Get places by just a click </string>
+    <string name="slide_2_desc">Click on the search button and suggestions will be displayed and you click on the
+    icon of you choice and click on it again to make it disapear and hold on for a second and the places of the
+    icon you have clicked will be displayed to you.</string>
+
+    <string name="slide_3_title">Near by Places</string>
+    <string name="slide_3_desc">Places of the icon you clicked will be displayed around your current location
+    and they will be mapped using red markers.</string>
+
+    <string name="slide_4_title">Place Names</string>
+    <string name="slide_4_desc">Click on any red marker and a window showing place names and other information is
+    displayed, click on the window and another screen will be displayed showing details of the place and other options
+    to choice.</string>
+
+    <string name="play_again_desc">To see the welcome slider again, goto Settings -> apps -> welcome slider -> clear data</string>
+    <string name="play_again">Play Again</string>
+
+
 </resources>
